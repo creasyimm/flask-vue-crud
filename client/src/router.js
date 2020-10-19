@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Datas from './components/Datas.vue';
 import Books from './components/Books.vue';
 import Ping from './components/Ping.vue';
 
@@ -11,6 +12,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Datas',
+      component: Datas,
+    },
+    {
+      path: '/b',
       name: 'Books',
       component: Books,
     },

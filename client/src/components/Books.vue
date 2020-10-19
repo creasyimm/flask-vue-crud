@@ -2,7 +2,7 @@
 
   <div class="container">
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <!-- 
+      <!--
         success, info, warning, danger, dark, light
       -->
       <b-navbar-brand href="#">NavBar</b-navbar-brand>
@@ -27,7 +27,7 @@
             <b-dropdown-item href="#">CN</b-dropdown-item>
           </b-nav-item-dropdown>
 
-            <!-- Using 'button-content' slot 
+            <!-- Using 'button-content' slot
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
               <em>User</em>

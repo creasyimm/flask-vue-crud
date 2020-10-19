@@ -1,19 +1,13 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import uuid
 import random
+import sys
+from myconfig import *
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
-datas = [
-    {'type': 'BareMetal', 'name': 'TestEnv', 'host': '172.16.75.249', 'os': 'Esxi 6.7', 'cpu': 0.6, 
-      'memory': 0.3, 'disk': 0.5, 'service': { 'variant': 'success', 'value': 10 }},
-    {'type': 'BareMetal', 'name': 'DevEnv', 'host': '172.16.75.223', 'os': 'Esxi 6.7', 'cpu': 0.6, 
-      'memory': 0.3, 'disk': 0.5, 'service': { 'variant': 'warning', 'value': 30 }},
-    {'type': 'BareMetal', 'name': 'TestEnv', 'host': '172.16.75.249', 'os': 'Esxi 6.7', 'cpu': 0.6, 
-      'memory': 0.3, 'disk': 0.5, 'service': { 'variant': 'success', 'value': 10 }},
-    {'type': 'BareMetal', 'name': 'DevEnv', 'host': '172.16.75.223', 'os': 'Esxi 6.7', 'cpu': 0.6, 
-      'memory': 0.3, 'disk': 0.5, 'service': { 'variant': 'warning', 'value': 30 }}
-]
+import time
 
 BOOKS = [
     {
@@ -49,6 +43,80 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+def udpate_ts():
+    ts_val = datetime.now()
+    for d in servers:
+        old_ts_val = servers[d]['ts']
+        tdiff = (ts_val - old_ts_val).seconds
+        servers[d]['tdiff'] = tdiff
+
+def prt(strs):
+    print (strs, file=sys.stderr)
+
+def update_para(who, post_data):
+    servers[who]['_rowVariant']=''
+    if(post_data.get('latency') == 1000):
+        servers[who]['_rowVariant']='danger'
+        servers[who]['latency']=1000
+        return 'error'
+    print(post_data, file=sys.stderr)
+    ts = time.strftime("%Y-%m-%d %H:%M:%S")
+    ts_val = datetime.now()
+    # old_ts_val = servers[who]['ts']
+    try:
+
+        # servers[who]['cpu'] = float(post_data.get('cpu'))
+        # servers[who]['memory'] = float(post_data.get('memory'))
+        # servers[who]['disk'] = float(post_data.get('disk'))
+        # print (post_data)
+        servers[who]['latency']=post_data.get('latency')
+        servers[who]['ts']=ts_val
+        return 'success'
+    except:
+        return 'error'
+
+@app.route('/update', methods=['POST'])
+def udpate_datas():
+    response_object = {'status': 'success'}
+    post_data = request.get_json()
+    print(post_data, file=sys.stderr)
+    
+    who = post_data.get('who')
+    if who in servers:
+        ret = update_para(who, post_data);
+        response_object['status'] = ret
+    # print (post_data, file=sys.stderr)
+    return jsonify(response_object)
+
+def get_bar_color(v):
+    if v < 2:
+        return 'success'
+    else :
+        if v <5:
+            return 'warning'
+        else:
+            return 'danger'
+
+@app.route('/datas', methods=['GET', 'POST'])
+def all_datas():
+    response_object = {'status': 'success'}
+    if request.method == 'POST':
+        response_object['message'] = 'wtf!'
+    else:
+        # for dt in datas:
+        #     rvalue = random.randint(0,100)
+        #     dt['service']['value'] = rvalue
+        #     dt['service']['variant'] = get_bar_color(rvalue)
+        udpate_ts()
+        datas = []
+        for k in servers:
+            rvalue = servers[k]['tdiff']
+            servers[k]['service']['variant'] = get_bar_color(rvalue)
+            servers[k]['service']['value'] = (servers[k]['latency']/30)*100
+            datas.append(servers[k])
+        response_object['datas'] = datas
+    return jsonify(response_object)
+
 
 def remove_book(book_id):
     for book in BOOKS:
@@ -57,23 +125,10 @@ def remove_book(book_id):
             return True
     return False
 
-
 # sanity check route
 @app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
-
-
-@app.route('/datas', methods=['GET', 'POST'])
-def all_datas():
-    response_object = {'status': 'success'}
-    if request.method == 'POST':
-        response_object['message'] = 'wtf!'
-    else:
-        for dt in datas:
-            dt['service']['value'] = random.randint(0,100)
-        response_object['datas'] = datas
-    return jsonify(response_object)
 
 @app.route('/books', methods=['GET', 'POST'])
 def all_books():
@@ -91,7 +146,6 @@ def all_books():
     else:
         response_object['books'] = BOOKS
     return jsonify(response_object)
-
 
 @app.route('/books/<book_id>', methods=['PUT', 'DELETE'])
 def single_book(book_id):
@@ -114,4 +168,4 @@ def single_book(book_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host = '0.0.0.0')
