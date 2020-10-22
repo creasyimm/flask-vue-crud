@@ -91,7 +91,7 @@ def send_one_ping(my_socket, dest_addr, ID):
     my_socket.sendto(packet, (dest_addr, 1)) # Don't know about the 1
  
  
-def do_one(dest_addr, timeout):
+def do_one_backup(dest_addr, timeout):
     """
     Returns either the delay (in seconds) or none on timeout.
     """
@@ -115,7 +115,32 @@ def do_one(dest_addr, timeout):
  
     my_socket.close()
     return delay
+
+def do_one(dest_addr, timeout):
+    """
+    Returns either the delay (in seconds) or none on timeout.
+    """
+    icmp = socket.getprotobyname("icmp")
+    try:
+        my_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, icmp)
+    except socket.error as errno:
+        if errno == 1:
+            # Operation not permitted
+            msg = msg + (
+                " - Note that ICMP messages can only be sent from processes"
+                " running as root."
+            )
+            raise socket.error(msg)
+        
+        return 1000
  
+    my_ID = os.getpid() & 0xFFFF
+ 
+    send_one_ping(my_socket, dest_addr, my_ID)
+    delay = receive_one_ping(my_socket, my_ID, timeout)
+ 
+    my_socket.close()
+    return delay
  
 def verbose_ping(dest_addr, timeout = 2, count = 4):
     """
@@ -142,7 +167,7 @@ def do_one_ping(dest_addr, timeout = 1, count = 1):
     try:
         delay = do_one(dest_addr, timeout)
     except socket.gaierror as e:
-        pass
+        delay_v = 1000
 
     if delay == None:
         if __name__ == '__main__':

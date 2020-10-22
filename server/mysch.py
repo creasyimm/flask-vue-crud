@@ -7,7 +7,7 @@ import urllib.request
 from utils import *
 from tcp_latency import measure_latency
 from datetime import datetime 
-import docker
+# import docker
 
 def mypost(body):
 	try:
@@ -29,18 +29,21 @@ def test_ping(who, stype, host):
 	my_post_body={'who':who, 'type':stype, 'latency':delay}
 	while True:
 		# ping server
-		delay = do_one_ping(host)
-
+		try:
+			delay = do_one_ping(host)
+		except:
+			delay = 1000
 		# write latency to post data
 		my_post_body['latency'] = delay
 
 		# post to rest API
+		# print( "delay: %d"%delay)
 		ret = mypost(my_post_body)
 		if (ret) != 200:
 			print('rest service error [%d]'%ret, file=sys.stderr)
 		if stype == 'ping' and delay == 1000:
 			continue
-		time.sleep(0.9)
+		time.sleep(2)
 
 def test_tcp(who, stype, host, port):
 	delay = 1000
@@ -333,9 +336,16 @@ all_proc = [
 	'wiki_services_p',
 ]
 
+def active_auto_update_ts_job():
+	response = urllib.request.urlopen('http://127.0.0.1:5000/updatets').read()
+	ret = json.loads(response)
+	print(ret)
+
 def run_all():
+	active_auto_update_ts_job()
 	for p in all_proc:
 		pp = eval('Process(target=%s)'%p)
+		pp.daemon = True 
 		pp.start()
 	while True:
 		time.sleep(60)

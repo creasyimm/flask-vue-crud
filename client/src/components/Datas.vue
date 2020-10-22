@@ -99,7 +99,8 @@ export default {
         { key: 'os', lable: 'Os' },
         { key: 'latency', lable: 'Latency' },
         { key: 'service', lable: 'Service' },
-        { key: 'ts', lable: 'LastUpdate' }
+        { key: 'offline', lable: 'Offline' },
+        { key: 'ts', lable: 'LastUpdate' },
       ],
       my_items: [],
     };
@@ -110,7 +111,7 @@ export default {
   methods: {
     getData() {
       // console.log('huihui');
-      const path = 'http://192.168.2.35:5000/datas';
+      const path = 'http://192.168.1.137:5000/datas';
       axios.get(path)
         .then((res) => {
           this.my_items = res.data.datas;

@@ -3,3 +3,7 @@ node_modules/
 /dist/
 env/
 __pycache__
+nohup.out
+package-lock.json
+server/venv/
+server/nohup.out

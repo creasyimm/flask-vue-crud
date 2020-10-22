@@ -14,6 +14,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.221':{
@@ -26,6 +27,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'nexus':{
@@ -38,6 +40,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.57':{
@@ -50,6 +53,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '75.223':{
@@ -62,6 +66,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '75.249':{
@@ -74,6 +79,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '2.247':{
@@ -86,6 +92,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.58':{
@@ -98,6 +105,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.239':{
@@ -110,6 +118,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '2.248':{
@@ -122,6 +131,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.55':{
@@ -134,6 +144,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.222':{
@@ -146,6 +157,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.11':{
@@ -158,6 +170,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '2.10':{
@@ -170,6 +183,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     '0.235':{
@@ -182,6 +196,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'dockerhome':{
@@ -194,6 +209,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'mysql':{
@@ -206,6 +222,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'pm':{
@@ -218,6 +235,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'pm2':{
@@ -230,6 +248,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
     'wiki':{
@@ -242,6 +261,7 @@ servers = {
         'service': { 'variant': 'success', 'value': 10 },
         'ts': datetime.now(),
         'tdiff': 0,
+        'offline': 0,
         '_rowVariant': ''
     },
 }
