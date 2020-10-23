@@ -86,6 +86,11 @@ def udpate_ts():
         old_ts_val = servers[d]['ts']
         tdiff = (ts_val - old_ts_val).seconds
         servers[d]['tdiff'] = tdiff
+        if servers[d]['warning'] and tdiff > 60:
+            srv = '{}({})'.format(servers[d]['host'], d)
+            send_warnning(srv, True)
+            servers[d]['warning'] = 0
+
 
 def prt(strs):
     print (strs, file=sys.stderr)
@@ -98,15 +103,16 @@ def update_para(who, post_data):
         # 当前post提交的延时为1000
         if servers[who]['_rowVariant']!='danger' and servers[who]['offline'] == 0: 
             servers[who]['offline'] = 1
-            srv = '{}({})'.format(servers[who]['host'], who)
-            send_warnning(srv, True)
+            # srv = '{}({})'.format(servers[who]['host'], who)
+            # send_warnning(srv, True)
+            servers[who]['warning'] = 1
         servers[who]['_rowVariant']='danger'
         servers[who]['latency']=1000
         servers[who]['offline'] = servers[who]['tdiff'] 
         return 'error'
     else:
         servers[who]['_rowVariant']=''
-        if servers[who]['latency'] == 1000 and servers[who]['offline'] > 10:
+        if servers[who]['latency'] == 1000 and servers[who]['offline'] > 60:
             srv = '{}({})'.format(servers[who]['host'], who)
             send_warnning(srv, False)
 
